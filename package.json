@@ -1,5 +1,5 @@
 {
-  "name": "DPRRevamp",
+  "name": "dprrevamp",
   "version": "1.0.0",
   "main": "index.mjs",
   "nodemonConfig": { "ignore": ["*.test.ts", "programsData.json"], "delay": "2" },
