@@ -7,7 +7,7 @@ import * as fs from 'fs';
 const app = express(); 
 const __dirname = import.meta.dirname;
 
-const PORT = process.env.PORT || 8080; 
+const PORT = process.env.PORT || 3000; 
 
 
 app.get("/", (request, response) => {
