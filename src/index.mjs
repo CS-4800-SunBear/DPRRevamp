@@ -11,9 +11,16 @@ const PORT = process.env.PORT || 3000;
 
 app.set({"Content-type:" : "application/javascript"}); 
 
+app.use(express.static(path.join(__dirname, '../public')));
+
+
 app.get("/", (request, response) => {
   response.sendFile(path.join(__dirname, '../public/index.html'))
 });
+app.get("/fetch.js", (request, response) => {
+  response.sendFile(path.join(__dirname, './fetch.js'))
+});
+
 
 
 app.get("/api/classes", (request, response) =>{
@@ -68,7 +75,7 @@ const catalogProgramIDs = new Map([
   ['2020-2021',3972]
 ]); 
 
-const programsURL = `https://catalog.cpp.edu/content.php?catoid=${catalogIDs.get('2022-2023')}&navoid=${catalogProgramIDs.get('2022-2023')}`;
+const programsURL = `https://catalog.cpp.edu/content.php?catoid=${catalogIDs.get('2024-2025')}&navoid=${catalogProgramIDs.get('2024-2025')}`;
 
 async function scraper(scraping_url){
   let res; 

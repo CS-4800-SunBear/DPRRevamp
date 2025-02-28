@@ -1,9 +1,10 @@
-import express from 'express'; 
+
 
 alert('help');
-async function fetchdata(){
+//fetchData(); 
+async function fetchData(){
   try{
-    const response = await fetch("http://localhost:3000/apis/programs");
+    const response = await fetch("http://localhost:3000/api/programs");
 
     if(!response.ok){
       throw new Error("Could not fetch");
@@ -14,5 +15,8 @@ async function fetchdata(){
   }
   catch(error){
     console.error(error);
+    console.log('hi')
   }
 }
+
+document.querySelector('button').addEventListener('click', fetchData)
