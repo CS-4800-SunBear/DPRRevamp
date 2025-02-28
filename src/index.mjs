@@ -9,9 +9,10 @@ const __dirname = import.meta.dirname;
 
 const PORT = process.env.PORT || 3000; 
 
+app.set({"Content-type:" : "application/javascript"}); 
 
 app.get("/", (request, response) => {
-  response.sendFile(path.join(__dirname, 'index.html'))
+  response.sendFile(path.join(__dirname, '../public/index.html'))
 });
 
 
