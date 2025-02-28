@@ -34,7 +34,11 @@ app.get("/api/classes", (request, response) =>{
       "name": "Cryptography"
     }
   ]);
-})
+});
+
+app.get('/api/programs', (request, response) =>{
+  response.sendFile(path.join(__dirname, '../programsData.json'))
+});
 
 /*
 Catalog ID's 
@@ -63,7 +67,7 @@ const catalogProgramIDs = new Map([
   ['2020-2021',3972]
 ]); 
 
-const programsURL = `https://catalog.cpp.edu/content.php?catoid=${catalogIDs.get('2024-2025')}&navoid=${catalogProgramIDs.get('2024-2025')}`;
+const programsURL = `https://catalog.cpp.edu/content.php?catoid=${catalogIDs.get('2022-2023')}&navoid=${catalogProgramIDs.get('2022-2023')}`;
 
 async function scraper(scraping_url){
   let res; 
@@ -75,13 +79,11 @@ async function scraper(scraping_url){
   }
 }
 
- var list = scraper(programsURL).then((res) => {
+ scraper(programsURL).then((res) => {
   const $ = cheerio.load(res.body)
   const programsList = []; 
   var majors = [];
-
   const programs = $('.program-list li');
-
   programs.each((index, el) => {
     const program = {};
 
@@ -89,19 +91,15 @@ async function scraper(scraping_url){
     program.link = $(el).find('a').attr('href');
     programsList.push(program);
   });
-  majors = programsList.slice(0,115);
+  majors = programsList.slice(0,108);
   
-  /*
   fs.writeFile('programsData.json', JSON.stringify(majors), (err)=>{
     if (err) throw err;
-  })*/
-  console.log(programsList[3]);
-  return programsList; 
+  })
+    
 }).catch((err) => {
   console.log(err)
 })
-
 app.listen(PORT, () => {
   console.log(`Running on Port ${PORT}`)
 });
-console.log('hello');

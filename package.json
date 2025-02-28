@@ -2,6 +2,7 @@
   "name": "DPRRevamp",
   "version": "1.0.0",
   "main": "index.mjs",
+  "nodemonConfig": { "ignore": ["*.test.ts", "programsData.json"], "delay": "2" },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon ./src/index.mjs",
