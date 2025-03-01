@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.set({"Content-type:" : "application/javascript"}); 
 
 app.use(express.static(path.join(__dirname, '../public')));
-
+app.use("/node_modules", express.static(path.resolve("node_modules"))); // Expose node_modules
 
 app.get("/", (request, response) => {
   response.sendFile(path.join(__dirname, '../public/index.html'))

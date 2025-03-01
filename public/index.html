@@ -3,7 +3,17 @@
   <head>
     <script type="module" src="fetch.js"></script>
     <title>My Website</title>
-    
+
+     <!-- Include Mermaid.js -->
+    <script type="module">
+      import mermaid from "/node_modules/mermaid/dist/mermaid.esm.min.mjs";
+
+      document.addEventListener("DOMContentLoaded", function () {
+          mermaid.initialize({ startOnLoad: true });
+          mermaid.contentLoaded(); // Ensure rendering
+      });
+  </script>
+
   </head>
   <body>
     <main>
@@ -11,5 +21,11 @@
     </main>
     <button id="button" >get courses</button>
     
+  <!-- Mermaid Graph Container -->
+  <pre class="mermaid">
+    graph TD;
+    A[Class 1] --> B[Class 2];
+</pre>
+
   </body>
 </html>
