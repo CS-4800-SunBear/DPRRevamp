@@ -1,31 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <script type="module" src="fetch.js"></script>
     <title>My Website</title>
 
-     <!-- Include Mermaid.js -->
     <script type="module">
-      import mermaid from "/node_modules/mermaid/dist/mermaid.esm.min.mjs";
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
 
-      document.addEventListener("DOMContentLoaded", function () {
-          mermaid.initialize({ startOnLoad: true });
-          mermaid.contentLoaded(); // Ensure rendering
-      });
-  </script>
+        document.addEventListener("DOMContentLoaded", function () {
+            mermaid.initialize({ startOnLoad: true });
+            mermaid.contentLoaded();
+        });
+    </script>
 
-  </head>
-  <body>
+    <style>
+        #controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        #yearDropdown, #button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #button:hover {
+            background-color: #0056b3;
+        }
+
+        #results {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        #results a {
+            display: block;
+            text-decoration: none;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        #results a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
     <main>
-        <h1>Welcome to My Website</h1>  
-    </main>
-    <button id="button" >get courses</button>
-    
-  <!-- Mermaid Graph Container -->
-  <pre class="mermaid">
-    graph TD;
-    A[Class 1] --> B[Class 2];
-</pre>
+        <h1>Welcome to My Website</h1>
 
-  </body>
+        <div id="controls">
+            <button id="button">Get Courses</button> <!-- Only keep button -->
+        </div>
+
+        <div id="results"></div>
+    </main>
+
+    <pre class="mermaid">
+        graph TD;
+        A[Class 1] --> B[Class 2];
+    </pre>
+</body>
 </html>
