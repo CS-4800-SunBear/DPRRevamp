@@ -21,8 +21,10 @@
   "dependencies": {
     "axios": "^1.8.1",
     "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mermaid": "^11.4.1",
+    "openai": "^4.86.1",
     "unirest": "^0.6.0"
   },
   "devDependencies": {

@@ -2,12 +2,20 @@
 import express from 'express'; 
 import path from 'path';
 import unirest from 'unirest';
+import OpenAI from 'openai';
+import dotenv from 'dotenv'
 import * as cheerio  from 'cheerio';
 import * as fs from 'fs';
 const app = express(); 
 const __dirname = import.meta.dirname;
 
+dotenv.config();
+
 const PORT = process.env.PORT || 3000; 
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 app.set({"Content-type:" : "application/javascript"}); 
 
@@ -20,8 +28,6 @@ app.get("/", (request, response) => {
 app.get("/fetch.js", (request, response) => {
   response.sendFile(path.join(__dirname, './fetch.js'))
 });
-
-
 
 app.get("/api/classes", (request, response) =>{
   response.send([
@@ -46,6 +52,20 @@ app.get("/api/classes", (request, response) =>{
 
 app.get('/api/programs', (request, response) =>{
   response.sendFile(path.join(__dirname, '../programsData.json'))
+});
+
+app.get("/openai-test", async (req, res) => {
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: "what electives should i take a computer science major interested in cybersecurity?" }],
+    });
+
+    res.json({ response: completion.choices[0].message.content });
+  } catch (error) {
+    console.error("Error calling OpenAI API:", error);
+    res.status(500).json({ error: "Something went wrong with OpenAI API" });
+  }
 });
 
 /*
