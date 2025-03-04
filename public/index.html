@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <script type="module" src="fetch.js"></script>
-    <title>My Website</title>
+    <title>University Roadmap</title>
 
     <script type="module">
         import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
@@ -14,20 +14,47 @@
     </script>
 
     <style>
-        #controls {
+        body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            width: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: white;
         }
 
-        #yearDropdown, #button {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        /* Sidebar */
+        #sidebar {
+            width: 0;
+            height: 100vh;
+            background-color: #2c2c2c;
+            overflow-x: hidden;
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: 0.3s;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #sidebar.open {
+            width: 550px; 
+            padding: 15px;
+        }
+
+        #sidebar h3 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        #closeSidebar {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
         }
 
         #button {
@@ -35,6 +62,12 @@
             color: white;
             border: none;
             cursor: pointer;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 80%;
+            display: block;
+            margin: 10px auto;
         }
 
         #button:hover {
@@ -42,8 +75,10 @@
         }
 
         #results {
-            margin-top: 20px;
             font-size: 16px;
+            margin-top: 10px;
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
         #results a {
@@ -56,22 +91,75 @@
         #results a:hover {
             text-decoration: underline;
         }
+
+        /* Button to open sidebar */
+        #openSidebar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        #openSidebar:hover {
+            background-color: #0056b3;
+        }
+
+        #content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s;
+        }
+
+        #content.shifted {
+            margin-left: 450px;
+        }
     </style>
 </head>
 <body>
-    <main>
-        <h1>Welcome to My Website</h1>
 
-        <div id="controls">
-            <button id="button">Get Courses</button> <!-- Only keep button -->
-        </div>
+    <button id="openSidebar">☰ </button>
 
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <button id="closeSidebar">&times;</button>
+        <h3>Select Year</h3>
+        <div id="dropdownContainer"></div> <!-- Year Selector -->
+        <button id="button">Get Courses</button>
         <div id="results"></div>
-    </main>
+    </div>
 
-    <pre class="mermaid">
-        graph TD;
-        A[Class 1] --> B[Class 2];
-    </pre>
+    <div id="content">
+        <h1>Welcome to My Website</h1>
+        <pre class="mermaid">
+            graph TD;
+            A[Class 1] --> B[Class 2];
+        </pre>
+    </div>
+
+    <script>
+        // Sidebar Toggle
+        const sidebar = document.getElementById("sidebar");
+        const openSidebar = document.getElementById("openSidebar");
+        const closeSidebar = document.getElementById("closeSidebar");
+        const content = document.getElementById("content");
+
+        openSidebar.addEventListener("click", () => {
+            sidebar.classList.add("open");
+            content.classList.add("shifted");
+        });
+
+        closeSidebar.addEventListener("click", () => {
+            sidebar.classList.remove("open");
+            content.classList.remove("shifted");
+        });
+    </script>
+
 </body>
 </html>

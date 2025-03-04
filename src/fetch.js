@@ -17,7 +17,7 @@ async function fetchData() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const controlsContainer = document.getElementById("controls");
+    const controlsContainer = document.getElementById("dropdownContainer");
 
     // Check if dropdown already exists before creating a new one
     if (!document.getElementById("yearDropdown")) {
