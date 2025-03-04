@@ -13,9 +13,11 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000; 
 
+/* commenting out for now
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
+*/
 
 app.set({"Content-type:" : "application/javascript"}); 
 
@@ -27,6 +29,16 @@ app.get("/", (request, response) => {
 });
 app.get("/fetch.js", (request, response) => {
   response.sendFile(path.join(__dirname, './fetch.js'))
+});
+
+app.get("/programs", (req, res) => {
+  fs.readFile("programsData.json", (err, data) => {
+    if (err) {
+      res.status(500).json({ error: "Failed to load data" });
+    } else {
+      res.json(JSON.parse(data));
+    }
+  });
 });
 
 app.get("/api/classes", (request, response) =>{
@@ -54,6 +66,7 @@ app.get('/api/programs', (request, response) =>{
   response.sendFile(path.join(__dirname, '../programsData.json'))
 });
 
+/* Commenting out to avoid needing the openai key.
 app.get("/openai-test", async (req, res) => {
   try {
     const completion = await openai.chat.completions.create({
@@ -67,6 +80,7 @@ app.get("/openai-test", async (req, res) => {
     res.status(500).json({ error: "Something went wrong with OpenAI API" });
   }
 });
+*/
 
 /*
 Catalog ID's 

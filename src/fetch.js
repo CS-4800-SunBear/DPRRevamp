@@ -1,5 +1,3 @@
-alert("help");
-
 // Fetch function to retrieve data
 async function fetchData() {
     try {

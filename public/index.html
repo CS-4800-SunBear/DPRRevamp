@@ -120,6 +120,21 @@
         #content.shifted {
             margin-left: 450px;
         }
+
+        select {
+            font-size: 16px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+            cursor: pointer;
+            width: 350px
+        }
+
+        select:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -131,12 +146,15 @@
         <button id="closeSidebar">&times;</button>
         <h3>Select Year</h3>
         <div id="dropdownContainer"></div> <!-- Year Selector -->
+        <select id="programs">
+        <option value="">Select a program</option>
+        </select>
         <button id="button">Get Courses</button>
         <div id="results"></div>
     </div>
 
     <div id="content">
-        <h1>Welcome to My Website</h1>
+        <h1>University Roadmap</h1>
         <pre class="mermaid">
             graph TD;
             A[Class 1] --> B[Class 2];
@@ -158,6 +176,29 @@
         closeSidebar.addEventListener("click", () => {
             sidebar.classList.remove("open");
             content.classList.remove("shifted");
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/programs")
+                .then(response => response.json())
+                .then(data => {
+                    const dropdown = document.getElementById("programs");
+
+                    data.forEach(program => {
+                        const option = document.createElement("option");
+                        option.value = program.link; // Set value as the link
+                        option.textContent = program.title; // Set dropdown text
+                        dropdown.appendChild(option);
+                    });
+
+                    // Optional: Redirect on selection
+                    dropdown.addEventListener("change", function () {
+                        if (this.value) {
+                            window.location.href = this.value;
+                        }
+                    });
+                })
+                .catch(error => console.error("Error loading programs:", error));
         });
     </script>
 
