@@ -143,13 +143,19 @@
 
     <!-- Sidebar -->
     <div id="sidebar">
+
+
+
         <button id="closeSidebar">&times;</button>
         <h3>Select Year</h3>
         <div id="dropdownContainer"></div> <!-- Year Selector -->
-        <select id="programs">
-        <option value="">Select a program</option>
+        <form id="majorForm" action="http://localhost:3000/majors" method="POST">
+        <select id="programs" >
+        <option name= "major" type="text">Select a program</option>
         </select>
-        <button id="button">Get Courses</button>
+        <button id="button" >Get Courses</button>
+        </form>
+        
         <div id="results"></div>
     </div>
 
@@ -167,6 +173,13 @@
         const openSidebar = document.getElementById("openSidebar");
         const closeSidebar = document.getElementById("closeSidebar");
         const content = document.getElementById("content");
+        const form = document.createElement("form");
+        document.body.appendChild(form);
+
+        form.method = "POST";
+        form.action = "http://localhost:3000/majors";
+        var element = document.createElement("INPUT"); 
+        element.name="major";
 
         openSidebar.addEventListener("click", () => {
             sidebar.classList.add("open");
@@ -190,16 +203,31 @@
                         option.textContent = program.title; // Set dropdown text
                         dropdown.appendChild(option);
                     });
-
+                    
                     // Optional: Redirect on selection
                     dropdown.addEventListener("change", function () {
                         if (this.value) {
-                            window.location.href = this.value;
+                            //document.getElementsByName("major").value = this.value;
+                            element.value = this.value; 
+                            element.type = 'major';
                         }
+                        //document.majorForm.major.value = this.value;
+                        //document.getElementsByName("major").submit; 
+
+                        form.appendChild(element);
+                        form.submit();
+                        console.log(element.value);
                     });
+                    
+
                 })
                 .catch(error => console.error("Error loading programs:", error));
         });
+
+
+
+
+
     </script>
 
 </body>

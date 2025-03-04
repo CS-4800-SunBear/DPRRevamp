@@ -6,24 +6,31 @@ import OpenAI from 'openai';
 import dotenv from 'dotenv'
 import * as cheerio  from 'cheerio';
 import * as fs from 'fs';
+import bodyParser from 'body-parser';
+var  majorLink; 
 const app = express(); 
 const __dirname = import.meta.dirname;
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000; 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 /* commenting out for now
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 */
 
+app.listen(PORT, () => {
+  console.log(`Running on Port ${PORT}`)
+});
 app.set({"Content-type:" : "application/javascript"}); 
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use("/node_modules", express.static(path.resolve("node_modules"))); // Expose node_modules
-
+//app.use(express.json());
+//app.use(express.text());
 app.get("/", (request, response) => {
   response.sendFile(path.join(__dirname, '../public/index.html'))
 });
@@ -41,29 +48,48 @@ app.get("/programs", (req, res) => {
   });
 });
 
-app.get("/api/classes", (request, response) =>{
-  response.send([
-    {
-      "id": "1",
-      "name": "Software Engineering"
-    },
-    {
-      "id": "2",
-      "name": "Mobile App Development"
-    },
-    {
-      "id": "3",
-      "name": "Undergrad Seminar"
-    },
-    {
-      "id": "4",
-      "name": "Cryptography"
+app.get("/courses", (req, res) => {
+  fs.readFile("MajorData.json", (err, data) => {
+    if (err) {
+      res.status(500).json({ error: "Failed to load data" });
+    } else {
+      res.json(JSON.parse(data));
     }
-  ]);
+  });
 });
+
+
+app.post('/majors', (req,res) =>{
+  //majorLink = req.body;
+  majorLink = JSON.parse(JSON.stringify(req.body));
+
+  const coursesURL = `https://catalog.cpp.edu/${majorLink.major}`;
+ scraper(coursesURL).then((res) => {
+  const $ = cheerio.load(res.body)
+  const CourseList = []; 
+  //var majors = [];
+  const courses = $('.acalog-course');
+  courses.each((index, el) => {
+    const course = {};
+    course.title = $(el).find('a').text(); 
+    CourseList.push(course);
+  });
+  fs.writeFile('MajorData.json', JSON.stringify(CourseList), (err)=>{
+    if (err) throw err;
+  })   
+}).catch((err) => {
+  console.log(err)
+})
+
+
+})
 
 app.get('/api/programs', (request, response) =>{
   response.sendFile(path.join(__dirname, '../programsData.json'))
+});
+
+app.get('/api/courses', (request, response) =>{
+  response.sendFile(path.join(__dirname, '../MajorData.json'))
 });
 
 /* Commenting out to avoid needing the openai key.
@@ -108,6 +134,7 @@ const catalogProgramIDs = new Map([
   ['2021-2022',4359],
   ['2020-2021',3972]
 ]); 
+//const selectedYear = document.getElementById("yearDropdown").value;
 
 const programsURL = `https://catalog.cpp.edu/content.php?catoid=${catalogIDs.get('2024-2025')}&navoid=${catalogProgramIDs.get('2024-2025')}`;
 
@@ -134,6 +161,7 @@ async function scraper(scraping_url){
     programsList.push(program);
   });
   majors = programsList.slice(0,108);
+  console.log("run");
   
   fs.writeFile('programsData.json', JSON.stringify(majors), (err)=>{
     if (err) throw err;
@@ -142,6 +170,4 @@ async function scraper(scraping_url){
 }).catch((err) => {
   console.log(err)
 })
-app.listen(PORT, () => {
-  console.log(`Running on Port ${PORT}`)
-});
+

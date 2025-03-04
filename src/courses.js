@@ -4,7 +4,6 @@ import * as cheerio  from 'cheerio';
 import * as fs from 'fs';
 
 
-
 async function scraper(scraping_url){
   let res; 
   try{
@@ -14,6 +13,9 @@ async function scraper(scraping_url){
     return{body: 'something went wrong', status: 400}
   }
 }
+
+const courselink = document.getElementsByName("option");
+console.log(option);
 
 const coursesURL = 'https://catalog.cpp.edu/preview_program.php?catoid=68&poid=18690&returnto=5719';
 
@@ -37,9 +39,12 @@ const coursesURL = 'https://catalog.cpp.edu/preview_program.php?catoid=68&poid=1
   fs.writeFile('MajorData.json', JSON.stringify(majors), (err)=>{
     if (err) throw err;
   })
-    */ 
+    */
+    
     
     
 }).catch((err) => {
   console.log(err)
 })
+
+
