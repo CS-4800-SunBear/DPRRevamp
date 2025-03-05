@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const button = document.querySelector("button");
-    button.removeEventListener("click", fetchData);
+    //button.removeEventListener("click", fetchData);
     button.addEventListener("click", async function () {
         const selectedYear = document.getElementById("yearDropdown").value;
         console.log("Selected Year:", selectedYear);

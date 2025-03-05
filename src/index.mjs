@@ -59,7 +59,7 @@ app.get("/courses", (req, res) => {
 });
 
 
-app.post('/majors', (req,res) =>{
+app.post('/majors', (req,response) =>{
   //majorLink = req.body;
   majorLink = JSON.parse(JSON.stringify(req.body));
 
@@ -80,6 +80,7 @@ app.post('/majors', (req,res) =>{
 }).catch((err) => {
   console.log(err)
 })
+response.send({"status": 200});
 
 
 })
