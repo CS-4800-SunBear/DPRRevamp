@@ -80,7 +80,8 @@ app.post('/majors', (req,response) =>{
 }).catch((err) => {
   console.log(err)
 })
-response.send({"status": 200});
+response.status(204).send(); 
+//response.redirect('/');
 
 
 })

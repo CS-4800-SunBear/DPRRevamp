@@ -18,9 +18,6 @@ const catalogProgramIDs = new Map([
 ]); 
 
 
-
-
-
 async function fetchData() {
     try {
         const response = await fetch("http://localhost:3000/api/programs");
@@ -35,6 +32,39 @@ async function fetchData() {
         console.log("hi");
     }
 }
+const button = document.querySelector("button");
+
+button.addEventListener("click", async function () {
+    const selectedYear = document.getElementById("yearDropdown").value;
+    console.log("Selected Year:", selectedYear);
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/courses`);
+
+        if (!response.ok) {
+            throw new Error("Could not fetch data");
+        }
+
+        const data = await response.json();
+        console.log(data);
+       
+        const resultsContainer = document.getElementById("results");
+        resultsContainer.innerHTML = "<h2>Available Programs:</h2>";
+
+       
+        data.forEach(course => {
+            const programElement = document.createElement("p");
+            programElement.innerHTML = `<a target="_blank">${course.title}</a>`;
+            resultsContainer.appendChild(programElement);
+        });
+
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const controlsContainer = document.getElementById("dropdownContainer");
@@ -55,9 +85,9 @@ document.addEventListener("DOMContentLoaded", function () {
         controlsContainer.insertBefore(yearDropdown, controlsContainer.firstChild);
     }
 
-    const button = document.querySelector("button");
+    //const button = document.querySelector("button");
     //button.removeEventListener("click", fetchData);
-    button.addEventListener("click", async function () {
+    /*button.addEventListener("click", async function () {
         const selectedYear = document.getElementById("yearDropdown").value;
         console.log("Selected Year:", selectedYear);
 
@@ -69,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const data = await response.json();
-
+            console.log(data);
            
             const resultsContainer = document.getElementById("results");
             resultsContainer.innerHTML = "<h2>Available Programs:</h2>";
@@ -85,4 +115,5 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error(error);
         }
     });
+    */
 });
