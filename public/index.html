@@ -73,6 +73,23 @@
             background-color: #0056b3;
         }
 
+        #classbutton {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 80%;
+            display: block;
+            margin: 10px auto;
+        }
+
+        #classbutton:hover {
+            background-color: #0056b3;
+        }
+
         #results {
             font-size: 16px;
             margin-top: 10px;
@@ -137,7 +154,7 @@
     </style>
 </head>
 <body>
-
+    <iframe name="screen" style="display:none;"></iframe>
     <button id="openSidebar">☰ </button>
 
     <!-- Sidebar -->
@@ -153,7 +170,7 @@
         <option name= "major" type="text">Select a program</option>
         </select>
         </form>
-        <button id="button" >Get Courses</button>
+        <button id="classbutton" >Get Courses</button>
         
         <div id="results"></div>
     </div>
@@ -177,6 +194,7 @@
 
         form.method = "POST";
         form.action = "http://localhost:3000/majors";
+        form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
 
