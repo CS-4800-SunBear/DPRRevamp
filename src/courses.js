@@ -1,50 +1,53 @@
-
-import unirest from 'unirest';
-import * as cheerio  from 'cheerio';
-import * as fs from 'fs';
+const pt = require('puppeteer');
+const fs = require("fs");
 
 
-async function scraper(scraping_url){
-  let res; 
-  try{
-    res = await unirest.get(scraping_url)
-      return {body: res.body, status:200}
-  }catch(err){
-    return{body: 'something went wrong', status: 400}
+
+
+async function clickElement(url){
+   const browser = await pt.launch();
+   const page = await browser.newPage();
+   await page.setViewport({ width: 1000, height: 3000 })
+   await page.goto(url);
+
+   const resultLinks =  await page.$$('.acalog-course a');
+   for (const el of resultLinks){
+    await el.evaluate(b=>b.click()); 
+    await page.screenshot({
+      path: 'shot.png'
+   });
   }
+
+  await page.waitForSelector('.coursepadding > div:nth-child(2)', {visible: true})
+     var coursesData = [];
+  
+     var courseElements = await page.$$('.coursepadding > div:nth-child(2)');
+     
+     await courseElements.forEach(async (el,index) =>{
+        const title = await el.$eval("h3",(el) => el.textContent); 
+        const unit = title.substring(title.length-4, title.length-3);
+        var preReq = await el.evaluate(el => el.textContent) ?? "";
+        var sentenceArray = preReq.replace(/([.?!])\s*(?=[A-Z])/g, "$1|").split("|")
+        preReq = sentenceArray.filter(sentence => sentence.includes("Prerequisite(s):") ?? "none").toString(); 
+        if (preReq === "") {
+          preReq = "None"; 
+      }
+        
+        coursesData.push({title,unit,preReq}); 
+  
+  
+        if(await index === courseElements.length-1){
+          fs.writeFile(`MajorData.json`, JSON.stringify(coursesData), (err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(`Data  of  Page Scraped`);
+            }
+          });
+          browser.close(); 
+        }
+     })
 }
-
-const courselink = document.getElementsByName("option");
-console.log(option);
-
-const coursesURL = 'https://catalog.cpp.edu/preview_program.php?catoid=68&poid=18690&returnto=5719';
-
- scraper(coursesURL).then((res) => {
-  const $ = cheerio.load(res.body)
-  const CourseList = []; 
-
-  //var majors = [];
-
-  const courses = $('.acalog-course');
-  courses.each((index, el) => {
-    const course = {};
-
-    course.title = $(el).find('a').text(); 
-    CourseList.push(course);
-  });
-
-  console.log(CourseList);
-
-  /*
-  fs.writeFile('MajorData.json', JSON.stringify(majors), (err)=>{
-    if (err) throw err;
-  })
-    */
-    
-    
-    
-}).catch((err) => {
-  console.log(err)
-})
+clickElement();
 
 
