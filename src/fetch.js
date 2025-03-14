@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-
 async function getClasses() {
     const selectedYear = document.getElementById("yearDropdown").value;
     console.log("Selected Year:", selectedYear);
@@ -112,5 +111,8 @@ async function getClasses() {
     } catch (error) {
         console.error(error);
     }
+    return data; 
 };
+if(button){
 button.addEventListener("click", getClasses);
+}
