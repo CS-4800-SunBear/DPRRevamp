@@ -50,4 +50,9 @@ async function clickElement(url){
 }
 clickElement();
 
+export function filterCoursesByYear(courses, year) {
+  return courses.filter(course => course.year === year);
+}
+
+
 
