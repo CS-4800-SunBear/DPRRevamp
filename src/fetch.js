@@ -92,7 +92,6 @@ async function getClasses() {
     console.log("Selected Year:", selectedYear);
     try {
         const response = await fetch(`http://localhost:3000/api/courses`);
-
         if (!response.ok) {
             throw new Error("Could not fetch data");
         }
