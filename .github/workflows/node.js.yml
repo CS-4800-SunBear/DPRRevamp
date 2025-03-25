@@ -47,5 +47,6 @@ jobs:
         port: 22
         key: ${{ secrets.KEY }}
         script: 
+          cd /home/ec2-user/DPRRevamp/
           killall node
-          nohup /home/ec2-user/DPRRevamp/ npm run start > log.txt &
+          nohup npm run start > log.txt &
