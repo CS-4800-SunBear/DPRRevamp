@@ -51,3 +51,4 @@ jobs:
           killall node
           nohup npm run start > nohup.out > log.txt &
           echo "done!"
+          exit
