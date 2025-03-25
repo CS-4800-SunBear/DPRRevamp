@@ -44,8 +44,8 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.KEY }}
         port: 22
+        key: ${{ secrets.KEY }}
         script: 
           killall node
           nohup /home/ec2-user/DPRRevamp/ npm run start > log.txt &
