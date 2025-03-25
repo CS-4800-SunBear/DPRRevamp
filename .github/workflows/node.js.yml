@@ -50,3 +50,4 @@ jobs:
           cd /home/ec2-user/DPRRevamp/
           killall node
           nohup npm run start > log.txt &
+          echo "done!"
