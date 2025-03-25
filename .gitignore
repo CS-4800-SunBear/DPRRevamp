@@ -1,1 +1,5 @@
 .env
+node_modules
+MajorData.json
+shot.png
+programsData.json
