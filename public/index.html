@@ -216,13 +216,16 @@
 
                     data.forEach(program => {
                         const option = document.createElement("option");
-                        option.value = program.link; // Set value as the link
+                        option.id = program.title; 
+                        option.value = program.title; // Set value as the link
                         option.textContent = program.title; // Set dropdown text
                         dropdown.appendChild(option);
                     });
                     
                     // Optional: Redirect on selection
                     dropdown.addEventListener("change", function () {
+
+
                         if (this.value) {
                             //document.getElementsByName("major").value = this.value;
                             element.value = this.value; 
@@ -231,6 +234,20 @@
                         //document.majorForm.major.value = this.value;
                         //document.getElementsByName("major").submit; 
 
+                        var name = element.value.split(',');
+                        var newMaj = name[0] + "%";
+                        console.log(newMaj);
+
+                        //fetch(`/test/${name[0]}`).then(response => response.json())
+                        //.then(data => {
+                        //data.forEach(course => {
+                       // const programElement = document.createElement("p");
+                        //programElement.innerHTML = `<a target="_blank">${course.title}</a>`;
+                        //resultsContainer.appendChild(programElement);
+                    //})
+                    //});
+                        
+                        
                         form.appendChild(element);
                         form.submit();
             

@@ -1,18 +1,23 @@
-
+import dotenv from 'dotenv';
 import express from 'express'; 
 import path from 'path';
 import unirest from 'unirest';
 import OpenAI from 'openai';
-import dotenv from 'dotenv'
+import findClasses from "../courses/course-repository.js"
+
 import * as cheerio  from 'cheerio';
 import * as fs from 'fs';
 import bodyParser from 'body-parser';
 import puppeteer from 'puppeteer'; 
+import runDBMigrations from '../database/migrations/index.js'
 var  majorLink; 
 const app = express(); 
 const __dirname = import.meta.dirname;
 
 dotenv.config();
+
+await runDBMigrations();
+
 
 const PORT = process.env.PORT || 3000; 
 app.use(bodyParser.json());
@@ -59,15 +64,27 @@ app.get("/courses", (req, res) => {
   });
 });
 
+app.get('/test/:major', async (req, res) =>{
+  
+  //const result = await findClasses(+req.params.major); 
+  //res.json(result); 
+})
 
-app.post('/majors', (req,response) =>{
+
+app.post('/majors', async (req,response) =>{
   //majorLink = req.body;
   majorLink = JSON.parse(JSON.stringify(req.body));
 
-  const coursesURL = `https://catalog.cpp.edu/${majorLink.major}`;
-  clickElement(coursesURL);
+  //const coursesURL = `https://catalog.cpp.edu/${majorLink.major}`;
+  //clickElement(coursesURL);
+  console.log(majorLink.major); 
+  const result = await findClasses(majorLink.major); 
+  console.log(result);
+  //response.json(result); 
 
-
+  fs.writeFile('MajorData.json', JSON.stringify(result), (err)=>{
+    if (err) throw err;
+  })
  /*scraper(coursesURL).then((res) => {
   const $ = cheerio.load(res.body)
   const CourseList = []; 
