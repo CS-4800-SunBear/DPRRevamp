@@ -10,7 +10,7 @@ const findClasses = async (majorName) =>{
    WHERE major LIKE 'Computer Science%' ;`; 
 
   const testQ =
-  `SELECT * FROM 2024-2025 
+  `SELECT * FROM '2024-2025'
    WHERE major like $1  ;`; 
   //const res = await db.query(testQ,[majorName]); 
   const res = await db.query(testQ,[test]);  
