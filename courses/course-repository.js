@@ -11,7 +11,8 @@ const findClasses = async (majorName) =>{
 
   const testQ =
   `SELECT * FROM courses2025
-   WHERE major like $1  ;`; 
+   WHERE major like $1  
+   ORDER BY title ASC;`; 
   //const res = await db.query(testQ,[majorName]); 
   const res = await db.query(testQ,[test]);  
   return res.rows;
