@@ -37,7 +37,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         port: 22
         key: ${{ secrets.KEY }}
-        source: "public/index.html,src/*,package-lock.json,package.json"
+        source: "public/index.html,src/*,package-lock.json,package.json,courses/*,database/*"
         target: "/home/ec2-user/DPRRevamp/"
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1
