@@ -103,15 +103,27 @@ async function getClasses() {
 
        
         data.forEach(course => {
-            const programElement = document.createElement("p");
-            programElement.innerHTML = `<a target="_blank">${course.title}</a>`;
-            resultsContainer.appendChild(programElement);
+            //const programElement = document.createElement("p");
+            //programElement.innerHTML = `<a target="_blank">${course.title}</a>`;
+            var linebreak = document.createElement("br");
+            const programElement = document.createElement('input'); 
+            programElement.type = "checkbox";
+            programElement.id = course.title; 
+
+            var label = document.createElement('label'); 
+
+            label.htmlFor = course.title; 
+            label.appendChild(document.createTextNode(course.title)); 
+            resultsContainer.appendChild(label);
+            resultsContainer.appendChild(programElement); 
+            resultsContainer.appendChild(linebreak); 
+
         });
 
     } catch (error) {
         console.error(error);
     }
-    return data; 
+    //return data; 
 };
 if(button){
 button.addEventListener("click", getClasses);
