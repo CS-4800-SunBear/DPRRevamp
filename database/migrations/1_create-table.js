@@ -1,5 +1,5 @@
 const makeCourseTable = 
-`CREATE TABLE IF NOT EXISTS public."2025year"
+`CREATE TABLE IF NOT EXISTS public.courses2025
 (
     major character varying(400) COLLATE pg_catalog."default" NOT NULL,
     majoryear character varying(20) COLLATE pg_catalog."default" NOT NULL,
