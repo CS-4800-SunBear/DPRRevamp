@@ -68,9 +68,9 @@ app.get('/test/:major', async (req, res) =>{
 app.post('/majors', async (req,response) =>{
   //majorLink = req.body;
   majorLink = JSON.parse(JSON.stringify(req.body));
-
-  console.log(majorLink.major); 
-  const result = await findClasses(majorLink.major); 
+  var courseYear = majorLink.year; 
+   
+  const result = await findClasses(majorLink.major,courseYear); 
 
   fs.writeFile('MajorData.json', JSON.stringify(result), (err)=>{
     if (err) throw err;
@@ -103,13 +103,7 @@ app.get("/openai-test", async (req, res) => {
 });
 */
 
-const catalogIDs = new Map([
-  ['2024-2025',68],
-  ['2023-2024',65],
-  ['2022-2023',61],
-  ['2021-2022',57],
-  ['2020-2021',53]
-]); 
+
 
 const catalogProgramIDs = new Map([
   ['2024-2025',5719],

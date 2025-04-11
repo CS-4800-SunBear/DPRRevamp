@@ -7,7 +7,7 @@ const makeCourseTable =
     prereq character varying(800) COLLATE pg_catalog."default",
     coreq character varying(800) COLLATE pg_catalog."default",
     unit character varying(50) COLLATE pg_catalog."default",
-    CONSTRAINT updatedcourses_pkey PRIMARY KEY (major, majoryear, title)
+    CONSTRAINT courses2025_pkey PRIMARY KEY (major, majoryear, title)
 );`;
 
 export default makeCourseTable; 

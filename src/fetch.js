@@ -90,7 +90,7 @@ async function getClasses() {
     const selectedYear = document.getElementById("yearDropdown").value;
     console.log("Selected Year:", selectedYear);
     try {
-        const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+        const response = await fetch(`http://cppdegreeroadmap.com/`);
         if (!response.ok) {
             throw new Error("Could not fetch data");
         }

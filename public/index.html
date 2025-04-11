@@ -194,9 +194,13 @@
 
         form.method = "POST";
         form.action = "http://cppdegreeroadmap.com/majors";
+        //form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
+
+        var yearElement = document.createElement("INPUT"); 
+        yearElement.name = "year";
 
         openSidebar.addEventListener("click", () => {
             sidebar.classList.add("open");
@@ -224,16 +228,17 @@
                     
                     // Optional: Redirect on selection
                     dropdown.addEventListener("change", function () {
-
-
                         if (this.value) {
                             element.value = this.value; 
                             element.type = 'major';
+                            yearElement.value = document.getElementById("yearDropdown").value;
                         }
-
+                        
+                        //console.log(yearElement.value); 
                         
                         
                         form.appendChild(element);
+                        form.appendChild(yearElement); 
                         form.submit();
             
                     });
