@@ -2,10 +2,11 @@ import dotenv from 'dotenv';
 import express from 'express'; 
 import path from 'path';
 import OpenAI from 'openai';
-import findClasses from "../courses/course-repository.js"
+import findClasses, { getPrereqs } from "../courses/course-repository.js"
 import * as fs from 'fs';
 import bodyParser from 'body-parser'; 
 import runDBMigrations from '../database/migrations/index.js'
+import buildRoadMap from './roadmap.js';
 var  majorLink; 
 const app = express(); 
 const __dirname = import.meta.dirname;
@@ -38,6 +39,9 @@ app.get("/fetch.js", (request, response) => {
   response.sendFile(path.join(__dirname, './fetch.js'))
 });
 
+app.get("/jsontr.ee.js", (request, response) => {
+  response.sendFile(path.join(__dirname, './jsontr.ee.js'))
+});
 app.get("/programs", (req, res) => {
   fs.readFile("programsData.json", (err, data) => {
     if (err) {
@@ -71,8 +75,17 @@ app.post('/majors', async (req,response) =>{
   var courseYear = majorLink.year; 
    
   const result = await findClasses(majorLink.major,courseYear); 
+  const prereqs = await getPrereqs(majorLink.major, courseYear);
 
   fs.writeFile('MajorData.json', JSON.stringify(result), (err)=>{
+    if (err) throw err;
+  })
+  fs.writeFile('PreReqData.json', JSON.stringify(prereqs), (err)=>{
+    if (err) throw err;
+  })
+
+  const dataset = await buildRoadMap();
+  fs.writeFile('RM.json', JSON.stringify(dataset), (err)=>{
     if (err) throw err;
   })
  
@@ -86,6 +99,33 @@ app.get('/api/programs', (request, response) =>{
 app.get('/api/courses', (request, response) =>{
   response.sendFile(path.join(__dirname, '../MajorData.json'))
 });
+
+app.get('/api/reqs', (request, response) =>{
+
+  response.sendFile(path.join(__dirname, '../PreReqData.json'))
+});
+
+app.get('/reqs', (req, res) =>{
+  fs.readFile("PreReqData.json", (err, data) => {
+    if (err) {
+      res.status(500).json({ error: "Failed to load data" });
+    } else {
+      res.json(JSON.parse(data));
+    }
+  });
+});
+
+app.get('/roadmap', (req, res) =>{
+  fs.readFile("RM.json", (err, data) => {
+    if (err) {
+      res.status(500).json({ error: "Failed to load data" });
+    } else {
+      res.json(JSON.parse(data));
+    }
+  });
+});
+
+
 
 /* Commenting out to avoid needing the openai key.
 app.get("/openai-test", async (req, res) => {

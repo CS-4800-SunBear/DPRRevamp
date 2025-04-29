@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>University Roadmap</title>
-
+    <script type="module" src="jsontr.ee.js"></script>
     <script type="module">
         import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
 
@@ -177,11 +177,49 @@
 
     <div id="content">
         <h1>University Roadmap</h1>
-        <pre class="mermaid">
-            graph TD;
-            A[Class 1] --> B[Class 2];
-        </pre>
+        
     </div>
+<script>
+    /*
+    document.addEventListener("DOMContentLoaded", async function(){
+        const res = await fetch(`http://localhost:3000/roadmap`); 
+        const data = res.json(); 
+        console.log(data); 
+        const container = document.getElementById('content'); 
+        container.innerHTML =  generateJSONTree(data); 
+    })
+    */
+
+    const data = [
+    {
+        "title": "ABM 2010",
+        "list": [
+            "ABM 3060 - Retailing and Wholesaling of Agribusiness Products (3)  "
+        ]
+    },
+    {
+        "title": "ABM 2240",
+        "list": [
+            "ABM 3260 - Financial Analysis for Agribusiness (3)  ",
+            "ABM 4900 - Agribusiness Senior Feasibility Study (3)  "
+        ]
+    },
+    {
+        "title": "ABM 3040",
+        "list": [
+            "ABM 3100 - Sales and Professional Development for Agribusiness (3)  "
+        ]
+    },
+    {
+        "title": "ABM 3060",
+        "list": []
+    },]
+
+
+        //const container = document.getElementById('content'); 
+       // container.innerHTML =  generateJSONTree(data); 
+
+</script>
 
     <script>
         // Sidebar Toggle
@@ -193,8 +231,8 @@
         document.body.appendChild(form);
 
         form.method = "POST";
-        form.action = "http://cppdegreeroadmap.com/majors";
-        //form.action = "http://localhost:3000/majors";
+        //form.action = "http://cppdegreeroadmap.com/majors";
+        form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
@@ -248,11 +286,8 @@
                 .catch(error => console.error("Error loading programs:", error));
         });
 
-
-
-
-
     </script>
  <script type="module" src="fetch.js"></script>
+
 </body>
 </html>
