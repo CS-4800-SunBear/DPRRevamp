@@ -90,8 +90,8 @@ async function getClasses() {
     const selectedYear = document.getElementById("yearDropdown").value;
     console.log("Selected Year:", selectedYear);
     try {
-        //const response = await fetch(`http://cppdegreeroadmap.com/courses`);
-        const response = await fetch(`http://localhost:3000/courses`);
+        const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+        //const response = await fetch(`http://localhost:3000/courses`);
         if (!response.ok) {
             throw new Error("Could not fetch data");
         }
@@ -133,8 +133,8 @@ async function buildRoadMap(){
     //var courseNode = {}; 
     var regex = /...? \d{4}\w?/g;
     try {
-        const response = await fetch(`http://localhost:3000/courses`);
-        const secondRes =  await fetch('http://localhost:3000/reqs'); 
+        const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+        const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
         if(!response.ok){
             throw new Error("could not fetch data")
         }
