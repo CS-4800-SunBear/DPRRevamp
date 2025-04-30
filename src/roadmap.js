@@ -1,12 +1,15 @@
-
+//http://localhost:3000/
+//http://cppdegreeroadmap.com/
 
 async function buildRoadMap(){
-  var lists = []; 
+  var lists = [];
+  var mermaid = [];
+  mermaid.push('graph TD\n')
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
   try {
-      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
-      const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
+      const response = await fetch(`http://localhost:3000/courses`);
+      const secondRes =  await fetch('http://localhost:3000/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
       }
@@ -15,6 +18,7 @@ async function buildRoadMap(){
       const secondData = await secondRes.json();
       //console.log(secondData); 
       data.forEach(course => {
+          var node = ""; 
           var courseNode = {}; 
           var coursereqs = []; 
           var courseCode = course.title.match(regex).toString(); 
@@ -26,20 +30,20 @@ async function buildRoadMap(){
               //is CS 1300 a prereq for a certain course
               //if courseCode.includes(test); 
               // is 2400 a prereq for cs1300
-            
-              
 
               var test = coursePR.prereq;
 
               //console.log(coursePR.title);
               if(test.includes(courseCode)){
                   coursereqs.push(coursePR.title); 
+                  var title = coursePR.title.match(regex).toString(); 
+                  node = `${courseCode.replaceAll(" ", "")} -->  ${title.replaceAll(" ", "")}\n`;
+                  mermaid.push(node); 
               }
           })
           courseNode.list = coursereqs; 
           lists.push(courseNode); 
           
-
           /*
 
           var test = coursePR.title; 
@@ -54,6 +58,8 @@ async function buildRoadMap(){
             */
       })
       //var dataset = JSON.stringify(lists); 
+
+      //console.log(mermaid.join(""));
       return lists; 
   } catch (error) {
       console.log(error)

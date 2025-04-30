@@ -2,15 +2,7 @@
 <html lang="en">
 <head>
     <title>University Roadmap</title>
-    <script type="module" src="jsontr.ee.js"></script>
-    <script type="module">
-        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
-
-        document.addEventListener("DOMContentLoaded", function () {
-            mermaid.initialize({ startOnLoad: true });
-            mermaid.contentLoaded();
-        });
-    </script>
+    
 
     <style>
         body {
@@ -178,46 +170,63 @@
     <div id="content">
         <h1>University Roadmap</h1>
         
+        <pre id = "roadmap">
+        </pre>
+
     </div>
-<script>
-    /*
-    document.addEventListener("DOMContentLoaded", async function(){
-        const res = await fetch(`http://localhost:3000/roadmap`); 
-        const data = res.json(); 
-        console.log(data); 
-        const container = document.getElementById('content'); 
-        container.innerHTML =  generateJSONTree(data); 
-    })
-    */
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const button = document.getElementById("classbutton");
+    async function buildRoadMap(){
+  var lists = [];
+  var mermaidGraph = [];
+  mermaidGraph.push('graph TD\n')
+  //var courseNode = {}; 
+  var regex = /...? \d{4}\w?/g;
+  try {
+      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+      const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
+      if(!response.ok){
+          throw new Error("could not fetch data")
+      }
 
-    const data = [
-    {
-        "title": "ABM 2010",
-        "list": [
-            "ABM 3060 - Retailing and Wholesaling of Agribusiness Products (3)  "
-        ]
-    },
-    {
-        "title": "ABM 2240",
-        "list": [
-            "ABM 3260 - Financial Analysis for Agribusiness (3)  ",
-            "ABM 4900 - Agribusiness Senior Feasibility Study (3)  "
-        ]
-    },
-    {
-        "title": "ABM 3040",
-        "list": [
-            "ABM 3100 - Sales and Professional Development for Agribusiness (3)  "
-        ]
-    },
-    {
-        "title": "ABM 3060",
-        "list": []
-    },]
+      const data = await response.json(); 
+      const secondData = await secondRes.json();
+      data.forEach(course => {
+          var node = ""; 
+          var courseNode = {}; 
+          var coursereqs = []; 
+          var courseCode = course.title.match(regex).toString(); 
+          courseNode.title = courseCode; 
+          secondData.forEach(coursePR => {
+              var test = coursePR.prereq;
 
+              if(test.includes(courseCode)){
+                  coursereqs.push(coursePR.title); 
+                  var title = coursePR.title.match(regex).toString(); 
+                  node = `${courseCode.replaceAll(" ", "")} -->  ${title.replaceAll(" ", "")}\n`;
+                  mermaidGraph.push(node); 
+              }
+          })
+          courseNode.list = coursereqs; 
+          lists.push(courseNode); 
+          
+      })
 
-        //const container = document.getElementById('content'); 
-       // container.innerHTML =  generateJSONTree(data); 
+      const element = document.getElementById("roadmap"); 
+      element.innerHTML = mermaidGraph.join("");
+
+      element.removeAttribute('data-processed');
+      await mermaid.initialize({startOnLoad: false});
+      await mermaid.run({
+        nodes: [document.getElementById('roadmap')],
+      });
+
+  } catch (error) {
+      console.log(error)
+  }
+}
+    button.addEventListener('click', buildRoadMap); 
 
 </script>
 
