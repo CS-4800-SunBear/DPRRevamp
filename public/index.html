@@ -218,8 +218,8 @@
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
   try {
-      const response = await fetch(`http://localhost:3000/courses`);
-      const secondRes =  await fetch('http://localhost:3000/reqs'); 
+      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+      const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
       }
@@ -279,8 +279,8 @@
         document.body.appendChild(form);
 
         form.method = "POST";
-        //form.action = "http://cppdegreeroadmap.com/majors";
-        form.action = "http://localhost:3000/majors";
+        form.action = "http://cppdegreeroadmap.com/majors";
+       // form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
