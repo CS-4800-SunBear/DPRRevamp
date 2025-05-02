@@ -145,11 +145,28 @@
 
         }
 
-        #roadmap {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 20px;
+        #roadmap{
+            height: 800px;
+            
+            width: 1500px;
+        }
+
+
+        #secRoadmap {
+ 
+
+ display: flex;
+
+
+ flex-direction: column;
+
+
+ gap: 15px;
+
+
+ margin-top: 20px;
+
+
 }
 
 .semester-box {
@@ -201,8 +218,8 @@
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
   try {
-      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
-      const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
+      const response = await fetch(`http://localhost:3000/courses`);
+      const secondRes =  await fetch('http://localhost:3000/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
       }
@@ -234,7 +251,12 @@
       element.innerHTML = mermaidGraph.join("");
 
       element.removeAttribute('data-processed');
-      await mermaid.initialize({startOnLoad: false});
+      await mermaid.initialize({
+        startOnLoad: false,
+        theme: 'dark',
+        nodeSpacing: 25,
+        rankSpacing: 100
+    });
       await mermaid.run({
         nodes: [document.getElementById('roadmap')],
       });
@@ -257,8 +279,8 @@
         document.body.appendChild(form);
 
         form.method = "POST";
-        form.action = "http://cppdegreeroadmap.com/majors";
-        //form.action = "http://localhost:3000/majors";
+        //form.action = "http://cppdegreeroadmap.com/majors";
+        form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
