@@ -310,7 +310,7 @@ async function generateSemesterPlan() {
     roadmap.push({ semester, units: semesterUnits });
   }
 
-  const roadmapContainer = document.getElementById("roadmap");
+  const roadmapContainer = document.getElementById("semesterRoadmap");
   roadmapContainer.innerHTML = roadmap
     .map((s, i) => `<div class="semester-box">Semester ${i + 1} (${s.units} units):<br>` + s.semester.map(c => `- ${c}`).join("<br>") + `</div>`)
     .join("");

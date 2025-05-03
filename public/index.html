@@ -146,13 +146,18 @@
         }
 
         #roadmap{
-            height: 900px;
-            
+            height: 600px;
+           
             width: 1800px;
         }
+        .mermaid svg{
+        width: 400px;
+        height: auto;
+        
+    }
 
 
-        #secRoadmap {
+        #semesterRoadmap {
  
 
  display: flex;
@@ -203,9 +208,11 @@
 
     <div id="content">
         <h1>University Roadmap</h1>
-        
+
         <pre id = "roadmap">
         </pre>
+
+        <div id = semesterRoadmap></div>
 
     </div>
 <script type="module">
@@ -217,6 +224,7 @@
     async function buildRoadMap(){
   var lists = [];
   var mermaidGraph = [];
+  var callbacks = [];
   //var config = '---\nconfig:\n  layout: elk\n  elk:\n    mergeEdges: true\n    nodePlacementStrategy: LINEAR_SEGMENTS\n---'
   //mermaidGraph.push(config); 
   mermaidGraph.push('graph TD\n')
@@ -225,6 +233,8 @@
   try {
       const response = await fetch(`http://cppdegreeroadmap.com/courses`);
       const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
+      //const response = await fetch(`http://localhost:3000/courses`);
+      //const secondRes =  await fetch('http://localhost:3000/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
       }
@@ -232,6 +242,7 @@
       const data = await response.json(); 
       const secondData = await secondRes.json();
       data.forEach(course => {
+          var callback = ""; 
           var node = ""; 
           var courseNode = {}; 
           var coursereqs = []; 
@@ -240,44 +251,86 @@
           secondData.forEach(coursePR => {
               var test = coursePR.prereq;
 
+              if(coursePR.title.includes(courseCode)){
+                //console.log('Prereqs for ' + courseCode + ' are ' + coursePR.prereq); 
+                courseNode.needs = coursePR.prereq; 
+                callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`
+                callbacks.push(callback); 
+              }
+
               if(test.includes(courseCode)){
                   coursereqs.push(coursePR.title); 
                   var title = coursePR.title.match(regex).toString(); 
-                  node = `${courseCode.replaceAll(" ", "")}:::em1 -->  ${title.replaceAll(" ", "")}:::em1\n`;
+                  node = `${courseCode.replaceAll(" ", "")}:::em1 ====>  ${title.replaceAll(" ", "")}:::em1\n`;
+                  //callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`
                   mermaidGraph.push(node); 
+                  //callbacks.push(callback); 
               }
           })
           courseNode.list = coursereqs; 
-     
-          lists.push(courseNode); 
+          lists.push(courseNode);
+          //console.log(courseNode); 
           
       })
       //use subgraphs to create the co requisites
          var node = 'classDef em1 font-size:40px'
-          mermaidGraph.push(node); 
+          callbacks.push(node); 
           //console.log(config); 
-          console.log(mermaidGraph.join(""));
+          console.log(mermaidGraph.join("") + callbacks.join(""));
 
+          window.callback = function (courseNum) {
+            var result = lists.find(obj => {
+            return obj.title.replaceAll(" ", "") === courseNum;
+            }).needs
+            //console.log(lists[0].title + ' ' + result);
+            alert(courseNum + " needs: " + result);
+        };
       const element = document.getElementById("roadmap"); 
-      element.innerHTML = mermaidGraph.join("");
+      element.innerHTML = mermaidGraph.join("") + callbacks.join("");
       //let config = {startOnLoad: false, layout: elk,  elk: {  mergeEdges: true,   nodePlacementStrategy: LINEAR_SEGMENTS }}
 
       element.removeAttribute('data-processed');
       await mermaid.initialize(
         {
-            theme: 'natural',startOnLoad: false, layout: 'elk',  elk: {  mergeEdges: true,   nodePlacementStrategy: 'NETWORK_SIMPLEX' }}
+            theme: 'base',
+            themeVariables: {
+                background: '#ffffff',
+                primaryColor: '#144d00',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#aaa9ad',
+                lineColor: '#aaa9ad',
+                secondaryColor:'#006100',
+                tertiaryColor: '#ffffff'
+            },
+            startOnLoad: false, 
+            flowchart: {
+                rankSpacing: 90,
+                nodeSpacing: 90,
+            },
+            securityLevel: 'loose',
+            layout: 'elk',  
+            elk: {  
+                mergeEdges: true,   
+                nodePlacementStrategy: 'NETWORK_SIMPLEX' }}
         );
+
+
+
       await mermaid.run({
         nodes: [document.getElementById('roadmap')],
-      });
+     });
 
   } catch (error) {
       console.log(error)
   }
 }
+
+
+
     button.addEventListener('click', buildRoadMap); 
 
 </script>
+
 
     <script>
         // Sidebar Toggle
