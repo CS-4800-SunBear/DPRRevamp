@@ -252,6 +252,7 @@
           lists.push(courseNode); 
           
       })
+      //use subgraphs to create the co requisites
          var node = 'classDef em1 font-size:40px'
           mermaidGraph.push(node); 
           //console.log(config); 
@@ -264,7 +265,7 @@
       element.removeAttribute('data-processed');
       await mermaid.initialize(
         {
-            theme: 'dark',startOnLoad: false, layout: 'elk',  elk: {  mergeEdges: true,   nodePlacementStrategy: 'NETWORK_SIMPLEX' }}
+            theme: 'natural',startOnLoad: false, layout: 'elk',  elk: {  mergeEdges: true,   nodePlacementStrategy: 'NETWORK_SIMPLEX' }}
         );
       await mermaid.run({
         nodes: [document.getElementById('roadmap')],
