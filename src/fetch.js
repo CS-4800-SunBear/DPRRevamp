@@ -201,7 +201,7 @@ async function generateSemesterPlan() {
 
   const regex = /...? \d{4}\w?/g;
   const response = await fetch('http://cppdegreeroadmap.com/courses');
-
+  //const response = await fetch('http://localhost:3000/courses');
   const courses = await response.json();
 
   const courseMap = new Map();

@@ -146,9 +146,9 @@
         }
 
         #roadmap{
-            height: 800px;
+            height: 900px;
             
-            width: 1500px;
+            width: 1800px;
         }
 
 
@@ -210,10 +210,15 @@
     </div>
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    import elkLayouts from 'https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0/dist/mermaid-layout-elk.esm.min.mjs';
+  // load and register the engine
+    mermaid.registerLayoutLoaders(elkLayouts);
     const button = document.getElementById("classbutton");
     async function buildRoadMap(){
   var lists = [];
   var mermaidGraph = [];
+  //var config = '---\nconfig:\n  layout: elk\n  elk:\n    mergeEdges: true\n    nodePlacementStrategy: LINEAR_SEGMENTS\n---'
+  //mermaidGraph.push(config); 
   mermaidGraph.push('graph TD\n')
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
@@ -238,25 +243,29 @@
               if(test.includes(courseCode)){
                   coursereqs.push(coursePR.title); 
                   var title = coursePR.title.match(regex).toString(); 
-                  node = `${courseCode.replaceAll(" ", "")} -->  ${title.replaceAll(" ", "")}\n`;
+                  node = `${courseCode.replaceAll(" ", "")}:::em1 -->  ${title.replaceAll(" ", "")}:::em1\n`;
                   mermaidGraph.push(node); 
               }
           })
           courseNode.list = coursereqs; 
+     
           lists.push(courseNode); 
           
       })
+         var node = 'classDef em1 font-size:40px'
+          mermaidGraph.push(node); 
+          //console.log(config); 
+          console.log(mermaidGraph.join(""));
 
       const element = document.getElementById("roadmap"); 
       element.innerHTML = mermaidGraph.join("");
+      //let config = {startOnLoad: false, layout: elk,  elk: {  mergeEdges: true,   nodePlacementStrategy: LINEAR_SEGMENTS }}
 
       element.removeAttribute('data-processed');
-      await mermaid.initialize({
-        startOnLoad: false,
-        theme: 'dark',
-        nodeSpacing: 25,
-        rankSpacing: 100
-    });
+      await mermaid.initialize(
+        {
+            theme: 'dark',startOnLoad: false, layout: 'elk',  elk: {  mergeEdges: true,   nodePlacementStrategy: 'NETWORK_SIMPLEX' }}
+        );
       await mermaid.run({
         nodes: [document.getElementById('roadmap')],
       });
@@ -280,7 +289,7 @@
 
         form.method = "POST";
         form.action = "http://cppdegreeroadmap.com/majors";
-       // form.action = "http://localhost:3000/majors";
+        //form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
