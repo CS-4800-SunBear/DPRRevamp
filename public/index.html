@@ -193,7 +193,7 @@
     <div id="sidebar">
 
 
-
+    
         <button id="closeSidebar">&times;</button>
         <h3>Select Year</h3>
         <div id="dropdownContainer"></div> <!-- Year Selector -->
@@ -239,7 +239,7 @@
       if(!response.ok){
           throw new Error("could not fetch data")
       }
-
+      //comment
       const data = await response.json(); 
       const secondData = await secondRes.json();
       data.forEach(course => {
