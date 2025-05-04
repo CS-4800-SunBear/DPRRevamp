@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, inital-scale=1.0">  
     <title>University Roadmap</title>
-    
+    <link rel="stylesheet" href="https://unpkg.com/intro.js/introjs.css">
 
     <style>
         body {
@@ -11,6 +11,10 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #1e1e1e;
+            
+        }
+
+        h3,h2,label{
             color: white;
         }
 
@@ -180,7 +184,8 @@
         #roadmap{
             height: 60%;
             width: 100%;
-            overflow-y:auto
+            overflow-y:auto;
+            text-align: center;
         }
         .mermaid svg{
         width: 400px;
@@ -207,9 +212,15 @@
 
  margin-top: 20px;
 
+ color: white; 
+
 
 }
 
+
+h1{
+    color: white;
+}
 .semester-box {
     background-color: #2c2c2c;
     padding: 15px;
@@ -222,7 +233,6 @@
 </head>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
   
 
 <body>
@@ -238,7 +248,7 @@
         <h3>Select Year</h3>
         <div id="dropdownContainer"></div>  <!--Year Selector -->
         <form id="majorForm" action="http://cppdegreeroadmap.com/majors" method="POST">
-        <select id="programs" >
+        <select id="programs">
         <option name= "major" type="text">Select a program</option>
         </select>
         </form>
@@ -385,7 +395,7 @@
         const closeSidebar = document.getElementById("closeSidebar");
         const content = document.getElementById("content");
         const form = document.createElement("form");
-        //document.body.appendChild(form);
+        document.body.appendChild(form);
 
         form.method = "POST";
         form.action = "http://cppdegreeroadmap.com/majors";
@@ -445,6 +455,7 @@
 
     </script>
  <script type="module" src="fetch.js"></script>
+<script src="https://unpkg.com/intro.js/intro.js"></script>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js" defer></script>
 
