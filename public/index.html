@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">  
     <title>University Roadmap</title>
     
 
@@ -28,7 +29,9 @@
         }
 
         #sidebar.open {
-            width: 550px; 
+            
+            width: 35%;
+            height: 100%;
             padding: 15px;
         }
 
@@ -144,18 +147,25 @@
             outline: none;
 
         }
+        #content{
+            width: 100%;
+            height: 60%;
+        }
 
         #roadmap{
-            height: 600px;
-            width: 1800px;
+            height: 60%;
+            width: 100%;
             overflow-y:auto
         }
         .mermaid svg{
         width: 400px;
-        height: 600px;
-        
-        
+        height: 600px; 
     }
+
+    #thumbnail{
+        text-align: center;
+    }
+
 
 
         #semesterRoadmap {
@@ -196,7 +206,7 @@
     
         <button id="closeSidebar">&times;</button>
         <h3>Select Year</h3>
-        <div id="dropdownContainer"></div> <!-- Year Selector -->
+        <div id="dropdownContainer"></div>  <!--Year Selector -->
         <form id="majorForm" action="http://cppdegreeroadmap.com/majors" method="POST">
         <select id="programs" >
         <option name= "major" type="text">Select a program</option>
@@ -208,7 +218,7 @@
     </div>
 
     <div id="content">
-        <h1>University Roadmap</h1>
+        <h1 id="thumbnail">University Roadmap</h1>
 
         <pre id = "roadmap">
         </pre>
@@ -232,10 +242,10 @@
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
   try {
-      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
-      const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
-      //const response = await fetch(`http://localhost:3000/courses`);
-      //const secondRes =  await fetch('http://localhost:3000/reqs'); 
+      //const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+      //const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
+      const response = await fetch(`http://localhost:3000/courses`);
+      const secondRes =  await fetch('http://localhost:3000/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
       }
@@ -340,11 +350,11 @@
         const closeSidebar = document.getElementById("closeSidebar");
         const content = document.getElementById("content");
         const form = document.createElement("form");
-        document.body.appendChild(form);
+        //document.body.appendChild(form);
 
         form.method = "POST";
-        form.action = "http://cppdegreeroadmap.com/majors";
-        //form.action = "http://localhost:3000/majors";
+        //form.action = "http://cppdegreeroadmap.com/majors";
+        form.action = "http://localhost:3000/majors";
         form.target ="screen";
         var element = document.createElement("INPUT"); 
         element.name="major";
