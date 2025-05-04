@@ -311,10 +311,41 @@ async function generateSemesterPlan() {
   }
 
   const roadmapContainer = document.getElementById("semesterRoadmap");
-  roadmapContainer.innerHTML = roadmap
-    .map((s, i) => `<div class="semester-box">Semester ${i + 1} (${s.units} units):<br>` + s.semester.map(c => `- ${c}`).join("<br>") + `</div>`)
-    .join("");
+roadmapContainer.innerHTML = "";
+
+roadmap.forEach((s, i) => {
+  const semesterDiv = document.createElement("div");
+  semesterDiv.className = "semester-box";
+
+  const header = document.createElement("h3");
+  header.textContent = `Semester ${i + 1} (${s.units} units)`;
+  semesterDiv.appendChild(header);
+
+  const courseList = document.createElement("div");
+  courseList.className = "course-list";
+  courseList.id = `semester-${i + 1}`;
+
+  s.semester.forEach(c => {
+    const item = document.createElement("div");
+    item.className = "class-item";
+    item.textContent = c;
+    courseList.appendChild(item);
+  });
+
+  semesterDiv.appendChild(courseList);
+  roadmapContainer.appendChild(semesterDiv);
+
+  
+  window.Sortable?.create(courseList, {
+    group: "courses",
+    animation: 150,
+    ghostClass: "ghost"
+  });
+});
+
 }
+
+
 if(button){
 button.addEventListener("click", getClasses);
 //button.addEventListener("click", buildRoadMap);
