@@ -310,13 +310,14 @@ async function generateSemesterPlan() {
     roadmap.push({ semester, units: semesterUnits });
   }
 
-  const roadmapContainer = document.getElementById("semesterRoadmap");
+  const roadmapContainer = document.getElementById("listview");
 roadmapContainer.innerHTML = "";
 
 roadmap.forEach((s, i) => {
+  const list = document.createElement("li")
   const semesterDiv = document.createElement("div");
   semesterDiv.className = "semester-box";
-
+  list.appendChild(semesterDiv);
   const header = document.createElement("h3");
   header.textContent = `Semester ${i + 1} (${s.units} units)`;
   semesterDiv.appendChild(header);
@@ -333,7 +334,7 @@ roadmap.forEach((s, i) => {
   });
 
   semesterDiv.appendChild(courseList);
-  roadmapContainer.appendChild(semesterDiv);
+  roadmapContainer.appendChild(list);
 
   
   window.Sortable?.create(courseList, {

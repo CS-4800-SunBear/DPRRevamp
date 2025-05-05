@@ -14,6 +14,10 @@
             
         }
 
+        h1{
+            text-align: center;
+        }
+
         h3,h2,label{
             color: white;
         }
@@ -198,24 +202,22 @@
 
 
 
-        #semesterRoadmap {
- 
 
- display: flex;
-
-
- flex-direction: column;
-
-
- gap: 15px;
-
-
- margin-top: 20px;
-
- color: white; 
-
-
+    #semesterRoadmap{
+    width:100%;
+    overflow:auto;
+    white-space:nowrap;
 }
+#semesterRoadmap li{
+    display: inline-block;
+    vertical-align:top;
+    width:20%;
+    margin-right:5%;
+    
+    white-space:normal;
+    color: white;
+}
+
 
 
 h1{
@@ -229,6 +231,11 @@ h1{
     white-space: pre-wrap;
     word-wrap: break-word;
 }
+
+
+
+
+
     </style>
 </head>
 
@@ -262,7 +269,15 @@ h1{
       
         <div id="exportWrapper" style=" padding:20px;">
           <pre id="roadmap"></pre>
-          <div id="semesterRoadmap"></div>
+            
+            <div id = semesterRoadmap>
+                <ul id = "listview">
+
+
+
+                </ul>
+            </div>
+          
         </div>
       
         <div style="margin-top: 20px;">
