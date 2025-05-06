@@ -132,7 +132,7 @@ generateBtn.style.cssText = `
     margin-top: 15px;
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #144d00;
     color: white;
     border: none;
     font-size: 16px;
