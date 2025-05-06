@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, inital-scale=1.0">  
-    <title>University Roadmap</title>
+    <title>Cal Poly Pomona Roadmap</title>
     <link rel="stylesheet" href="https://unpkg.com/intro.js/introjs.css">
 
     <style>
@@ -10,7 +10,7 @@
             display: flex;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #1e1e1e;
+            background-color: #154734;
             
         }
 
@@ -26,7 +26,7 @@
         #sidebar {
             width: 0;
             height: 100vh;
-            background-color: #2c2c2c;
+            background-color: #1a2e1a;
             overflow-x: hidden;
             position: fixed;
             left: 0;
@@ -34,6 +34,7 @@
             transition: 0.3s;
             padding-top: 60px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+             border-right: 3px solid #FFB81C;
         }
 
         #sidebar.open {
@@ -46,6 +47,8 @@
         #sidebar h3 {
             text-align: center;
             margin-top: 0;
+            color: #FFB81C;
+            font-weight: bold;
         }
 
         #closeSidebar {
@@ -60,7 +63,7 @@
         }
 
         #button {
-            background-color: #007bff;
+            background-color: #144d00;
             color: white;
             border: none;
             cursor: pointer;
@@ -73,11 +76,11 @@
         }
 
         #button:hover {
-            background-color: #0056b3;
+            background-color: #0f3d00;
         }
 
         #classbutton {
-            background-color: #007bff;
+            background-color: #144d00;
             color: white;
             border: none;
             cursor: pointer;
@@ -90,7 +93,7 @@
         }
 
         #classbutton:hover {
-            background-color: #0056b3;
+            background-color: #0f3d00;
         }
 
         #results {
@@ -103,7 +106,7 @@
         #results a {
             display: block;
             text-decoration: none;
-            color: #007bff;
+            color: #144d00;
             margin-bottom: 5px;
         }
 
@@ -116,7 +119,7 @@
             position: absolute;
             top: 20px;
             left: 20px;
-            background-color: #007bff;
+            background-color: #144d00;
             color: white;
             border: none;
             padding: 10px;
@@ -126,7 +129,7 @@
         }
 
         #openSidebar:hover {
-            background-color: #0056b3;
+            background-color: #0f3d00;
         }
 
         #content {
@@ -141,7 +144,7 @@
         }
 
         .semester-box {
-    background-color: #2a2a2a;
+    background-color: #144d00;
     padding: 15px;
     margin: 10px;
     border-radius: 10px;
@@ -156,14 +159,14 @@
     border-radius: 6px;
 }
 
-        .class-item {
-    background-color: #444;
+.class-item {
+    background-color: #FFB81C;
+    color: #111;
     padding: 8px;
     margin: 6px 0;
     border-radius: 5px;
     cursor: grab;
-    }
-
+}
 
         select {
             font-size: 16px;
@@ -176,14 +179,75 @@
         }
 
         select:focus {
-            border-color: #007BFF;
+            border-color: #144d00
             outline: none;
 
         }
-        #content{
-            width: 100%;
-            height: 60%;
-        }
+#content {
+    width: 100%;
+    height: auto;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #154734, #FFB81C); 
+}
+
+
+
+h1 {
+    color: #FFFFFF !important;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #FFFFFF !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+}
+
+#exportWrapper {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    width: 95%;
+    max-width: 1800px;
+    min-height: 400px;   
+    overflow-x: auto;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#roadmap {
+    height: auto;
+    width: 100%;
+    max-width: 1600px;
+    overflow-x: auto;
+    padding: 0;
+    color: white;
+    text-align: center;
+    margin-bottom: 10px; 
+}
+
+button#saveAllImage, button#saveAllPDF {
+    background-color: #144d00;
+    color: white;
+    padding: 12px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+button#saveAllImage:hover, button#saveAllPDF:hover {
+    background-color: #0f3d00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
 
         #roadmap{
             height: 60%;
@@ -203,11 +267,13 @@
 
 
 
-    #semesterRoadmap{
-    width:100%;
-    overflow:auto;
-    white-space:nowrap;
+#semesterRoadmap {
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    margin-top: 0;  
 }
+
 #semesterRoadmap li{
     display: inline-block;
     vertical-align:top;
@@ -220,11 +286,12 @@
 
 
 
+
 h1{
     color: white;
 }
 .semester-box {
-    background-color: #2c2c2c;
+    background-color: #144d00;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
@@ -265,7 +332,7 @@ h1{
     </div>
 
     <div id="content">
-        <h1>University Roadmap</h1>
+        <h1>Cal Poly Pomona Roadmap </h1>
       
         <div id="exportWrapper" style=" padding:20px;">
           <pre id="roadmap"></pre>
@@ -302,9 +369,9 @@ h1{
   //var courseNode = {}; 
   var regex = /...? \d{4}\w?/g;
   try {
-      const response = await fetch(`http://cppdegreeroadmap.com/courses`);
+      const response = await fetch('http://cppdegreeroadmap.com/courses');
       const secondRes =  await fetch('http://cppdegreeroadmap.com/reqs'); 
-      //const response = await fetch(`http://localhost:3000/courses`);
+      //const response = await fetch('http://localhost:3000/courses');
       //const secondRes =  await fetch('http://localhost:3000/reqs'); 
       if(!response.ok){
           throw new Error("could not fetch data")
@@ -325,15 +392,17 @@ h1{
               if(coursePR.title.includes(courseCode)){
                 //console.log('Prereqs for ' + courseCode + ' are ' + coursePR.prereq); 
                 courseNode.needs = coursePR.prereq; 
-                callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`
+                callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`;
+
                 callbacks.push(callback); 
               }
 
               if(test.includes(courseCode)){
                   coursereqs.push(coursePR.title); 
                   var title = coursePR.title.match(regex).toString(); 
-                  node = `${courseCode.replaceAll(" ", "")}:::em1 ====>  ${title.replaceAll(" ", "")}:::em1\n`;
-                  //callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`
+                 node = `${courseCode.replaceAll(" ", "")}:::em1 ====>  ${title.replaceAll(" ", "")}:::em1\n`;
+
+                  //callback = click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n
                   mermaidGraph.push(node); 
                   //callbacks.push(callback); 
               }
