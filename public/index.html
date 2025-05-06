@@ -179,7 +179,7 @@
         }
 
         select:focus {
-            border-color: #144d00
+            border-color: #144d00;
             outline: none;
 
         }
@@ -335,7 +335,16 @@ h1{
         <h1>Cal Poly Pomona Roadmap </h1>
       
         <div id="exportWrapper" style=" padding:20px;">
-          <pre id="roadmap"></pre>
+          <pre id="roadmap">
+
+            <h2>Welcome to CPP Degree Roadmap</h2>
+            <h2>To begin click on the side button on the left to select your year of enrollment and your major!</h2>
+            <h2>The flowchart thats created showcases various courses in your degree and their prerequisites, click on any to learn more! </h2>
+            <h2>After that, select all the courses you have taken so far and then generate your roadmap!</h2>
+            <h2>Feel free to customize your newly created roadmap by swapping classes!</h2>
+
+
+          </pre>
             
             <div id = semesterRoadmap>
                 <ul id = "listview">
@@ -478,8 +487,8 @@ h1{
         const openSidebar = document.getElementById("openSidebar");
         const closeSidebar = document.getElementById("closeSidebar");
         const content = document.getElementById("content");
-        const form = document.createElement("form");
-        document.body.appendChild(form);
+        const form = document.createElement("form")
+        document.body.appendChild(form).style.display="none";
 
         form.method = "POST";
         form.action = "http://cppdegreeroadmap.com/majors";
