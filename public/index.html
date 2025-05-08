@@ -439,7 +439,7 @@ h1{
                   //callbacks.push(callback); 
               } 
               if(coreq.includes(courseCode)){
-                console.log(courseCode + " Is a co req for " + coursePR.title); 
+                //console.log(courseCode + " Is a co req for " + coursePR.title); 
                 
                 coursereqs.push(coursePR.title);
                 var title = coursePR.title.match(regex).toString(); 
@@ -473,7 +473,7 @@ h1{
          var node = 'classDef em1 font-size:40px'
           callbacks.push(node); 
           //console.log(config); 
-          console.log(mermaidGraph.join("") + callbacks.join(""));
+          //console.log(mermaidGraph.join("") + callbacks.join(""));
 
           window.callback = function (courseNum) {
             var result = lists.find(obj => {
