@@ -422,7 +422,6 @@ h1{
                 courseNode.needs = coursePR.prereq; 
                 
                 if(courseNode.needs === 'None'){
-                    console.log('RUNNNNNNNNNNN')
                     courseNode.needs = coreq; 
                 }
                 callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`;
