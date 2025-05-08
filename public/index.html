@@ -348,9 +348,12 @@ h1{
 
             <h2>Welcome to CPP Degree Roadmap</h2>
             <h2>To begin click on the side button on the left to select your year of enrollment and your major!</h2>
-            <h2>The flowchart thats created showcases various courses in your degree and their prerequisites, click on any to learn more! </h2>
+            <h2>The flowchart thats created showcases various courses in your degree that have pre or corequisite classes, click on any to learn more! </h2>
             <h2>After that, select all the courses you have taken so far and then generate your roadmap!</h2>
             <h2>Feel free to customize your newly created roadmap by swapping classes!</h2>
+            <h2>NOTE: Since this tool is under developement, please be sure to double check that: </h2>
+                <h3>Classes have correct prerequisites and corequisites</h3>
+                <h3>All the classes in a given program are there and accounted for</h3>
 
 
           </pre>
@@ -395,21 +398,33 @@ h1{
           throw new Error("could not fetch data")
       }
       //comment
+      //var coreqNode = {}; 
+      var coreqList = []; 
       const data = await response.json(); 
       const secondData = await secondRes.json();
       data.forEach(course => {
           var callback = ""; 
           var node = ""; 
+          var coreqNode = {}; 
           var courseNode = {}; 
           var coursereqs = []; 
+          
           var courseCode = course.title.match(regex).toString(); 
+          //console.log("Course is " + courseCode);
           courseNode.title = courseCode; 
           secondData.forEach(coursePR => {
               var test = coursePR.prereq;
+              var coreq = coursePR.coreq;
 
+        
               if(coursePR.title.includes(courseCode)){
                 //console.log('Prereqs for ' + courseCode + ' are ' + coursePR.prereq); 
                 courseNode.needs = coursePR.prereq; 
+                
+                if(courseNode.needs === 'None'){
+                    console.log('RUNNNNNNNNNNN')
+                    courseNode.needs = coreq; 
+                }
                 callback = `click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n`;
 
                 callbacks.push(callback); 
@@ -423,14 +438,39 @@ h1{
                   //callback = click ${courseCode.replaceAll(" ", "")} call callback(${courseCode.replaceAll(" ", "")})\n
                   mermaidGraph.push(node); 
                   //callbacks.push(callback); 
+              } 
+              if(coreq.includes(courseCode)){
+                console.log(courseCode + " Is a co req for " + coursePR.title); 
+                
+                coursereqs.push(coursePR.title);
+                var title = coursePR.title.match(regex).toString(); 
+                coreqNode.course = title; 
+                coreqNode.coreq = courseCode;
+                //node = `subgraph coreq\n direction LR\n ${courseCode.replaceAll(" ", "")}:::em1 <==>  ${title.replaceAll(" ", "")}:::em1\nend\n`;
+                //mermaidGraph.push(node); 
+                coreqList.push(coreqNode);
+
               }
           })
+
+          //console.log(coreqList)
           courseNode.list = coursereqs; 
           lists.push(courseNode);
           //console.log(courseNode); 
           
       })
       //use subgraphs to create the co requisites
+
+        if(Array.isArray(coreqList) || !coreqList.length){
+        var coreqclass = `subgraph coreqs\n direction LR\n`
+        for(var i = 0; i < coreqList.length; i++){
+            coreqclass = coreqclass + `${coreqList[i].course.replaceAll(" ", "")}:::em1 <==> ${coreqList[i].coreq.replaceAll(" ", "")}:::em1\n`;
+        }
+        coreqclass = coreqclass + `end\n`; 
+        mermaidGraph.push(coreqclass);}
+    
+
+
          var node = 'classDef em1 font-size:40px'
           callbacks.push(node); 
           //console.log(config); 
@@ -441,7 +481,7 @@ h1{
             return obj.title.replaceAll(" ", "") === courseNum;
             }).needs
             //console.log(lists[0].title + ' ' + result);
-            alert(courseNum + " needs: " + result);
+            alert(courseNum + " has a pre or corequisite of: " + result);
         };
       const element = document.getElementById("roadmap"); 
       element.innerHTML = mermaidGraph.join("") + callbacks.join("");
@@ -458,7 +498,8 @@ h1{
                 primaryBorderColor: '#aaa9ad',
                 lineColor: '#aaa9ad',
                 secondaryColor:'#006100',
-                tertiaryColor: '#ffffff'
+                tertiaryColor: '#FFFFFF',
+                
             },
             startOnLoad: false, 
             flowchart: {
