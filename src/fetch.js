@@ -106,6 +106,21 @@ async function getClasses() {
         header.textContent = "Major Required";
         header.style.textAlign = "left";
         resultsContainer.appendChild(header); 
+        var selectAll = document.createElement('input'); 
+            selectAll.type="checkbox" 
+            selectAll.id="selectAllCheckbox"; 
+            selectAll.textContent = "Select All Major Required";
+            header.appendChild(selectAll); 
+        
+            
+          document.getElementById('selectAllCheckbox')
+                .addEventListener('change', function () {
+            let checkboxes = 
+                document.querySelectorAll('.MajorRequired');
+            checkboxes.forEach(function (checkbox) {
+                checkbox.checked = this.checked;
+            }, this)});
+              
 
        
         data.forEach(course => {
@@ -118,6 +133,7 @@ async function getClasses() {
             const programElement = document.createElement('input'); 
             programElement.type = "checkbox";
             programElement.id = course.title; 
+            programElement.className = "MajorRequired";
 
 
             var label = document.createElement('label'); 
