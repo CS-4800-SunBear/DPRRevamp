@@ -89,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 async function getClasses() {
     const selectedYear = document.getElementById("yearDropdown").value;
     console.log("Selected Year:", selectedYear);
+    var nonEssentials = []; 
     try {
         const response = await fetch(`http://cppdegreeroadmap.com/courses`);
         //const response = await fetch(`http://localhost:3000/courses`);
@@ -101,25 +102,67 @@ async function getClasses() {
        
         const resultsContainer = document.getElementById("results");
         resultsContainer.innerHTML = "<h2>Available Programs:</h2>";
+        var header = document.createElement("h3"); 
+        header.textContent = "Major Required";
+        header.style.textAlign = "left";
+        resultsContainer.appendChild(header); 
 
        
         data.forEach(course => {
             //const programElement = document.createElement("p");
             //programElement.innerHTML = `<a target="_blank">${course.title}</a>`;
+
+            if(course.required){
+
             var linebreak = document.createElement("br");
             const programElement = document.createElement('input'); 
             programElement.type = "checkbox";
             programElement.id = course.title; 
 
-            var label = document.createElement('label'); 
 
+            var label = document.createElement('label'); 
+            //label.style.color = "#C6D5E9"; 
+            /*
+            if(course.required){
+              //console.log("RUN IN")
+              label.style.color = "#C6D5E9"; 
+              //#C6D5E9
+            } */ 
+
+            label.className = "courses"; 
             label.htmlFor = course.title; 
             label.appendChild(document.createTextNode(course.title)); 
             resultsContainer.appendChild(label);
             resultsContainer.appendChild(programElement); 
-            resultsContainer.appendChild(linebreak); 
+            resultsContainer.appendChild(linebreak); }
+            else{
+              nonEssentials.push(course.title); 
+            }
+
 
         });
+        var finallinebreak = document.createElement("br");
+        resultsContainer.appendChild(finallinebreak); 
+        var nonheader = document.createElement("h3");
+        nonheader.textContent = "Electives / Subplans";
+        nonheader.style.textAlign = "left";
+        resultsContainer.appendChild(nonheader); 
+        for(var i = 0; i < nonEssentials.length; i++){
+          var linebreak = document.createElement("br");
+            const programElement = document.createElement('input'); 
+            programElement.type = "checkbox";
+            programElement.id = nonEssentials[i]; 
+
+
+            var label = document.createElement('label'); 
+            label.class = 'courses'; 
+
+            label.htmlFor = nonEssentials[i]; 
+            label.appendChild(document.createTextNode(nonEssentials[i])); 
+            resultsContainer.appendChild(label);
+            resultsContainer.appendChild(programElement); 
+            resultsContainer.appendChild(linebreak); 
+        }
         // Remove previous button if it exists
 const oldBtn = document.getElementById("generateRoadmapBtn");
 if (oldBtn) oldBtn.remove();
