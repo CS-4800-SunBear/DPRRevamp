@@ -13,7 +13,7 @@ const __dirname = import.meta.dirname;
 
 dotenv.config();
 
-await runDBMigrations();
+//await runDBMigrations();
 
 
 const PORT = process.env.PORT || 3000; 
