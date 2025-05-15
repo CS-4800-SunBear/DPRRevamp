@@ -251,8 +251,10 @@ async function buildRoadMap(){
 }
 
 async function generateSemesterPlan() {
-  const maxUnitsPerSemester = 18;
-  const maxCoursesPerSemester = 6;
+  const maxUnitsPerSemester = 16;
+  const maxCoursesPerSemester = 5;
+  var requiredJSON = []; 
+  var notRequiredJSON = []; 
 
   const completed = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
     .map(cb => cb.id.match(/...? \d{4}\w?/g)?.[0]?.trim())
@@ -262,6 +264,16 @@ async function generateSemesterPlan() {
   const response = await fetch('http://cppdegreeroadmap.com/courses');
   //const response = await fetch('http://localhost:3000/courses');
   const courses = await response.json();
+
+  for(var key in courses){
+    if(courses[key].required){
+      requiredJSON.push(courses[key]); 
+    }
+    else{
+      notRequiredJSON.push(courses[key]); 
+    }
+  };
+  //console.log(courses); 
 
   const courseMap = new Map();
   const courseUnits = new Map();
@@ -288,7 +300,7 @@ async function generateSemesterPlan() {
     }
     return false; // no keyword match → include
   }
-
+  //Can use requiredJSON for only making courses with major requirments
   // Filter courses, clean units, skip under 1 unit
   courses.forEach(course => {
     const code = course.title.match(regex)?.[0]?.trim();
