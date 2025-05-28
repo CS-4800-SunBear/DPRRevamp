@@ -255,10 +255,13 @@ async function generateSemesterPlan() {
   const maxCoursesPerSemester = 5;
   var requiredJSON = []; 
   var notRequiredJSON = []; 
+  var done = false; 
 
   const completed = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
     .map(cb => cb.id.match(/...? \d{4}\w?/g)?.[0]?.trim())
     .filter(Boolean);
+
+    //console.log(completed); 
 
   const regex = /...? \d{4}\w?/g;
   const response = await fetch('http://cppdegreeroadmap.com/courses');
@@ -273,7 +276,7 @@ async function generateSemesterPlan() {
       notRequiredJSON.push(courses[key]); 
     }
   };
-  //console.log(courses); 
+  //console.log(requiredJSON); 
 
   const courseMap = new Map();
   const courseUnits = new Map();
@@ -281,7 +284,6 @@ async function generateSemesterPlan() {
   // Universal deduplication setup
   const exclusiveKeywords = [
     'Senior Project',
-    'Software Engineering',
     'Capstone',
     'Practice'
   ];
@@ -336,9 +338,37 @@ async function generateSemesterPlan() {
     else levels.freshman.push([code, title]);
   });
 
+function shuffle(array) {
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+}
+
+shuffle(levels.freshman);
+shuffle(levels.sophomore);
+shuffle(levels.junior);
+shuffle(levels.senior); 
+
+  //console.log("freshman: " + levels.freshman + "\n"  + "sophomore: " + levels.sophomore)
+
+
+
+
+
   const roadmap = [];
   const taken = new Set(completed);
 
+  
   let semester = [];
   let semesterUnits = 0;
   let semesterCourses = 0;
@@ -351,18 +381,46 @@ async function generateSemesterPlan() {
       const u = courseUnits.get(code);
       if (!taken.has(code) && u >= 1 && !isDuplicateByKeyword(title)) {
         if (semesterUnits + u <= maxUnitsPerSemester && semesterCourses + 1 <= maxCoursesPerSemester) {
+          if(requiredJSON.length != 0){
+
+          //let obj = courses.find(o => o.title.includes(code));
+          //console.log("FOUND " + obj.prereq); 
+
+
           semester.push(title);
           semesterUnits += u;
           semesterCourses++;
           taken.add(code);
+
+          requiredJSON.forEach(test => {
+            if(test.title.match(regex)?.[0]?.trim() === code){ 
+              requiredJSON = requiredJSON.filter(course => course.title != title);
+              //console.log(test.title); 
+            }
+          })
+          //console.log(requiredJSON)
+        }
+
+
         } else {
           leftover.push([code, title]);
         }
       }
     }
+    //console.log(taken);
 
     return leftover;
   }
+
+
+  function reqCheck(preReqs, takenCourses){
+    preReqs = preReqs.split(","); 
+
+    preReqs.forEach(course =>{
+      console.log(courses); 
+    })
+  }
+
 
   for (const level of ['freshman', 'sophomore', 'junior', 'senior']) {
     let levelCourses = levels[level];
@@ -376,6 +434,7 @@ async function generateSemesterPlan() {
       }
     }
   }
+
 
   if (semester.length > 0) {
     roadmap.push({ semester, units: semesterUnits });
