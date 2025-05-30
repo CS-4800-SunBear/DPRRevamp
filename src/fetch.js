@@ -91,8 +91,8 @@ async function getClasses() {
     console.log("Selected Year:", selectedYear);
     var nonEssentials = []; 
     try {
-        //const response = await fetch(`https://cppdegreeroadmap.com/courses`);
-        const response = await fetch(`http://localhost:3000/courses`);
+        const response = await fetch(`https://cppdegreeroadmap.com/courses`);
+        //const response = await fetch(`http://localhost:3000/courses`);
         if (!response.ok) {
             throw new Error("Could not fetch data");
         }
@@ -264,8 +264,8 @@ async function generateSemesterPlan() {
     //console.log(completed); 
 
   const regex = /...? \d{4}\w?/g;
-  //const response = await fetch('https://cppdegreeroadmap.com/courses');
-  const response = await fetch('http://localhost:3000/courses');
+  const response = await fetch('https://cppdegreeroadmap.com/courses');
+  //const response = await fetch('http://localhost:3000/courses');
   const courses = await response.json();
 
   for(var key in courses){
