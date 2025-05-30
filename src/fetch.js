@@ -330,7 +330,7 @@ async function generateSemesterPlan() {
   };
 
   courseMap.forEach((title, code) => {
-    const match = code.match(/\d{4}\w?/g);
+    const match = code.match(/\d{4}/);
     const number = match ? parseInt(match[0], 10) : 0;
     if (number >= 4000) levels.senior.push([code, title]);
     else if (number >= 3000) levels.junior.push([code, title]);
@@ -374,42 +374,23 @@ shuffle(levels.senior);
   let semesterCourses = 0;
 
   function tryAddCourses(levelCourses) {
-    let remaining = [...levelCourses]; 
+    let remaining = [...levelCourses];
     let leftover = [];
 
     for (const [code, title] of remaining) {
-      var u = courseUnits.get(code);
+      const u = courseUnits.get(code);
       if (!taken.has(code) && u >= 1 && !isDuplicateByKeyword(title)) {
         if (semesterUnits + u <= maxUnitsPerSemester && semesterCourses + 1 <= maxCoursesPerSemester) {
           if(requiredJSON.length != 0){
-            //console.log("Console code is: "  +  code); 
-            let re = new RegExp(`\\b${code}\\b`);
 
-          let obj = courses.find(o => o.title.match(re));
-          //console.log("FOUND " + obj.title + " who has a prereq of " + obj.prereq); 
-            
+          //let obj = courses.find(o => o.title.includes(code));
+          //console.log("FOUND " + obj.prereq); 
+
 
           semester.push(title);
           semesterUnits += u;
           semesterCourses++;
           taken.add(code);
-
-          if(obj.coreq != "None" && !taken.has(obj.coreq)){
-            
-            var coreqCode = obj.coreq; 
-            re = new RegExp(`\\b${coreqCode}\\b`);
-             let coreqTitle = courses.find(o => o.title.match(re));
-            u = courseUnits.get(obj.coreq)
-
-            //console.log(coreqTitle.title);
-
-            semester.push(coreqTitle.title);
-            semesterUnits += u;
-            semesterCourses++;
-            taken.add(obj.coreq);
-            console.log(coreqCode); 
-          }
-
 
           requiredJSON.forEach(test => {
             if(test.title.match(regex)?.[0]?.trim() === code){ 
