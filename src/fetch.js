@@ -376,6 +376,8 @@ shuffle(levels.senior);
   function tryAddCourses(levelCourses) {
     let remaining = [...levelCourses];
     let leftover = [];
+    var counter = 0; 
+    var check = false; 
 
     for (const [code, title] of remaining) {
       const u = courseUnits.get(code);
@@ -385,6 +387,23 @@ shuffle(levels.senior);
 
           //let obj = courses.find(o => o.title.includes(code));
           //console.log("FOUND " + obj.prereq); 
+
+          let re = new RegExp(`\\b${code}\\b`);
+
+          let obj = courses.find(o => o.title.match(re));
+
+          if(!obj.required && !check){
+            counter++; 
+            if(counter > 2){
+              check = true; 
+            }
+            console.log("Tried to add non major course before major");
+            continue; 
+          }
+
+          if(!check && obj.required){
+            check = true; 
+          }
 
 
           semester.push(title);
