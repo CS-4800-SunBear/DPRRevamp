@@ -298,7 +298,7 @@ async function makeMap(){
         },]; 
 
 
-    const res = await fetch(`http://localhost:3000/roadmap`); 
+    const res = await fetch(`https://cppdegreeroadmap.com/roadmap`); 
     const data = await res.json(); 
     console.log(data); 
     const container = document.getElementById('content'); 

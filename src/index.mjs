@@ -75,7 +75,7 @@ app.post('/majors', async (req,response) =>{
   //majorLink = req.body;
   majorLink = JSON.parse(JSON.stringify(req.body));
   var courseYear = majorLink.year; 
-   
+   console.log(majorLink.major + " " + courseYear)
   const result = await findClasses(majorLink.major,courseYear); 
   const prereqs = await getPrereqs(majorLink.major, courseYear);
 
