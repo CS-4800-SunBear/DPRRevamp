@@ -33,8 +33,8 @@ const findClasses = async (majorName,programYear) =>{
     ]); 
 
     const selectQ = Queries.get(programYear); 
+      console.log([test]);
   const res = await db.query(selectQ,[test]); 
-  console.log(res);
   return res.rows;
 }
 
