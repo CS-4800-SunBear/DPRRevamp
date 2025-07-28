@@ -4,6 +4,7 @@ const findClasses = async (majorName,programYear) =>{
 
   //let test = majorName.replace("+", " "); 
   let test = majorName + "%";
+  console.log(test); 
     const Query2025 =
     `SELECT * FROM courses2025
     WHERE major like $1  
@@ -33,6 +34,7 @@ const findClasses = async (majorName,programYear) =>{
 
     const selectQ = Queries.get(programYear); 
   const res = await db.query(selectQ,[test]); 
+  console.log(res);
   return res.rows;
 }
 
